@@ -1,2 +1,22 @@
 Dimensions,
-3:17 - Start working on the RecommendedFoodDetail page
+3:17 - Start working on the RecommendedFoodDetail page,
+PageView,
+ListView,
+ListView.builder-physics-NeverScrollableScrollPhysics,
+Expanded-SingleChildScrollView,
+List.generate,
+CustomScrollView,
+late,
+PageController(viewPortFraction=0.8),
+initState(),
+pageController.addListener(),
+dispose(),
+Matrix4.identity(),
+Matrix4.diagonal3Values(1, currScale, 1)
+        ..setTranslationRaw(0, _height * (1 - currScale) / 2, 0),
+Transform,
+Stack-Positioned,
+Align-alignment,
+InkWell-onTap-setState,
+Gesture-onPressed-setState,
+4:30!
