@@ -1,9 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery/controllers/popular_product_controller.dart';
+import 'package:food_delivery/pages/home/food_page_body.dart';
+import 'package:food_delivery/pages/home/main_food_page.dart';
+import 'package:food_delivery/routes/route_helper.dart';
+import 'package:food_delivery/utils/app_constants.dart';
 import 'package:food_delivery/utils/dimensions.dart';
 import 'package:food_delivery/widgets/app_column.dart';
 import 'package:food_delivery/widgets/app_icon.dart';
 import 'package:food_delivery/widgets/expandable_text.dart';
+import 'package:get/get.dart';
 
 import '../../utils/colors.dart';
 import '../../widgets/big_text.dart';
@@ -11,10 +17,15 @@ import '../../widgets/icon_and_text_widget.dart';
 import '../../widgets/small_text.dart';
 
 class PopularFoodDetail extends StatelessWidget {
-  const PopularFoodDetail({Key? key}) : super(key: key);
+  int pageId;
+  PopularFoodDetail({Key? key, required this.pageId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var product =
+        Get.find<PopularProductController>().popularProductList[pageId];
+    // print('page id is ' + pageId.toString());
+    // print('product name is ' + product.name!);
     return Scaffold(
       body: Stack(
         children: [
@@ -27,7 +38,7 @@ class PopularFoodDetail extends StatelessWidget {
               height: Dimensions.popularFoodImgSize,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                image: AssetImage('assets/image/food0.png'),
+                image: NetworkImage(AppConstants.BASE_URL+AppConstants.UPLOAD_URL+product.img!),
                 fit: BoxFit.cover,
               )),
             ),
@@ -40,7 +51,11 @@ class PopularFoodDetail extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppIcon(icon: Icons.arrow_back_ios),
+                GestureDetector(
+                    onTap: () {
+                      Get.toNamed(RouteHelper.initial);
+                    },
+                    child: AppIcon(icon: Icons.arrow_back_ios)),
                 AppIcon(icon: Icons.shopping_cart_outlined),
               ],
             ),
@@ -65,7 +80,11 @@ class PopularFoodDetail extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppColumn(),
+                  AppColumn(
+                    text: product.name,
+                    stars: product.stars.toString(),
+                    location: product.location,
+                  ),
                   SizedBox(
                     height: Dimensions.height20,
                   ),
@@ -77,8 +96,8 @@ class PopularFoodDetail extends StatelessWidget {
                     child: SingleChildScrollView(
                       child: ExpandableTextWidget(
                           text:
-                              "Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghuChicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I rt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I par boiled I  "),
-                    ),
+                              product.description!),
+                    ),  
                   ),
                 ],
               ),
@@ -142,7 +161,7 @@ class PopularFoodDetail extends StatelessWidget {
                   borderRadius: BorderRadius.circular(Dimensions.radius20),
                   color: AppColors.mainColor),
               child: BigText(
-                text: "\$0.08 | Add to cart",
+                text: "\$${product.price} | Add to cart",
                 color: Colors.white,
               ),
             ),

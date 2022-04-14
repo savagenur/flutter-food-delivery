@@ -1,26 +1,37 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery/controllers/recommended_product_controller.dart';
+import 'package:food_delivery/routes/route_helper.dart';
+import 'package:food_delivery/utils/app_constants.dart';
 import 'package:food_delivery/utils/colors.dart';
 import 'package:food_delivery/utils/dimensions.dart';
 import 'package:food_delivery/widgets/app_icon.dart';
 import 'package:food_delivery/widgets/big_text.dart';
 import 'package:food_delivery/widgets/expandable_text.dart';
+import 'package:get/get.dart';
 
 class RecommendedFoodDetail extends StatelessWidget {
-  const RecommendedFoodDetail({Key? key}) : super(key: key);
+  var pageId;
+  RecommendedFoodDetail({Key? key, required this.pageId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var product = Get.find<RecommendedProductController>().products[pageId];
     return Scaffold(
       backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            automaticallyImplyLeading: false,
             toolbarHeight: 80,
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppIcon(icon: Icons.clear),
+                GestureDetector(
+                    onTap: (() {
+                      Get.toNamed(RouteHelper.getInitial());
+                    }),
+                    child: AppIcon(icon: Icons.clear)),
                 AppIcon(icon: Icons.shopping_cart_outlined)
               ],
             ),
@@ -32,7 +43,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                     top: Dimensions.height10 / 2, bottom: Dimensions.height10),
                 child: Center(
                     child: BigText(
-                  text: "Chinese Side",
+                  text: product.name!,
                   size: Dimensions.font26,
                 )),
                 decoration: BoxDecoration(
@@ -46,8 +57,8 @@ class RecommendedFoodDetail extends StatelessWidget {
             backgroundColor: AppColors.yellowColor,
             expandedHeight: 300,
             flexibleSpace: FlexibleSpaceBar(
-              background: Image.asset(
-                "assets/image/food0.png",
+              background: Image.network(
+                AppConstants.BASE_URL+AppConstants.UPLOAD_URL+product.img!,
                 width: double.maxFinite,
                 fit: BoxFit.cover,
               ),
@@ -63,7 +74,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                       bottom: Dimensions.height30),
                   child: ExpandableTextWidget(
                       text:
-                          "Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghuChicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I rt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I par boiled I   Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghuChicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I rt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I Chicken marinated in a spiced youghurt is placed in a large pot, then layered with fried onions (cheaky easy sub below!), fresh coriander/cilantro, par boiled I par boiled I  "),
+                          product.description!),
                 )
               ],
             ),
@@ -88,7 +99,11 @@ class RecommendedFoodDetail extends StatelessWidget {
                   iconColor: Colors.white,
                   backgroundColor: AppColors.mainColor,
                 ),
-                BigText(text: '\$12.88' + ' X ' + '0', color: AppColors.mainBlackColor, size: Dimensions.font26,),
+                BigText(
+                  text: '\$'+product.price.toString() + ' X ' + '0',
+                  color: AppColors.mainBlackColor,
+                  size: Dimensions.font26,
+                ),
                 AppIcon(
                   iconSize: Dimensions.iconSize24,
                   icon: Icons.add,
@@ -99,48 +114,51 @@ class RecommendedFoodDetail extends StatelessWidget {
             ),
           ),
           Container(
-        height: Dimensions.bottomHeightBar,
-        padding: EdgeInsets.only(
-            left: Dimensions.width20,
-            right: Dimensions.width20,
-            top: Dimensions.height30,
-            bottom: Dimensions.height30),
-        decoration: BoxDecoration(
-            color: AppColors.buttonBackgroundColor,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(Dimensions.radius20 * 2),
-                topRight: Radius.circular(Dimensions.radius20 * 2))),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              padding: EdgeInsets.only(
-                  right: Dimensions.width20,
-                  left: Dimensions.width20,
-                  top: Dimensions.height20,
-                  bottom: Dimensions.height20),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(Dimensions.radius20),
-                  color: Colors.white),
-              child: Icon(Icons.favorite,color: AppColors.mainColor,),
+            height: Dimensions.bottomHeightBar,
+            padding: EdgeInsets.only(
+                left: Dimensions.width20,
+                right: Dimensions.width20,
+                top: Dimensions.height30,
+                bottom: Dimensions.height30),
+            decoration: BoxDecoration(
+                color: AppColors.buttonBackgroundColor,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(Dimensions.radius20 * 2),
+                    topRight: Radius.circular(Dimensions.radius20 * 2))),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: EdgeInsets.only(
+                      right: Dimensions.width20,
+                      left: Dimensions.width20,
+                      top: Dimensions.height20,
+                      bottom: Dimensions.height20),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(Dimensions.radius20),
+                      color: Colors.white),
+                  child: Icon(
+                    Icons.favorite,
+                    color: AppColors.mainColor,
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(
+                      right: Dimensions.width20,
+                      left: Dimensions.width20,
+                      top: Dimensions.height20,
+                      bottom: Dimensions.height20),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(Dimensions.radius20),
+                      color: AppColors.mainColor),
+                  child: BigText(
+                    text: "\$0.08 | Add to cart",
+                    color: Colors.white,
+                  ),
+                ),
+              ],
             ),
-            Container(
-              padding: EdgeInsets.only(
-                  right: Dimensions.width20,
-                  left: Dimensions.width20,
-                  top: Dimensions.height20,
-                  bottom: Dimensions.height20),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(Dimensions.radius20),
-                  color: AppColors.mainColor),
-              child: BigText(
-                text: "\$0.08 | Add to cart",
-                color: Colors.white,
-              ),
-            ),
-          ],
-        ),
-      )
+          )
         ],
       ),
     );

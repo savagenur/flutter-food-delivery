@@ -8,14 +8,29 @@ import 'big_text.dart';
 import 'icon_and_text_widget.dart';
 
 class AppColumn extends StatelessWidget {
-  const AppColumn({Key? key}) : super(key: key);
+  String? text;
+  String? stars;
+  String? commentsAmount;
+  String? location;
+  String? time;
+  AppColumn(
+      {Key? key,
+      this.text = 'text',
+      this.stars = '4.1',
+      this.location = '1.7km',
+      this.time = '32min',
+      this.commentsAmount = '1287',})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        BigText(text: "Chinese Side", size: Dimensions.font26,),
+        BigText(
+          text: text!,
+          size: Dimensions.font26,
+        ),
         SizedBox(
           height: Dimensions.height10,
         ),
@@ -26,18 +41,19 @@ class AppColumn extends StatelessWidget {
                 return Icon(
                   Icons.star,
                   size: 18,
-                  color: AppColors.mainColor,
+                  
+                  color:(double.parse(stars!).floor())>index? AppColors.mainColor:Colors.grey,
                 );
               }),
             ),
             SizedBox(
               width: Dimensions.width10,
             ),
-            SmallText(text: "4.5"),
+            SmallText(text: stars!),
             SizedBox(
               width: Dimensions.width10,
             ),
-            SmallText(text: "1287"),
+            SmallText(text: commentsAmount!),
             SizedBox(
               width: Dimensions.width10,
             ),
@@ -56,11 +72,11 @@ class AppColumn extends StatelessWidget {
                 iconColor: AppColors.iconColor1),
             IconAndTextWidget(
                 icon: Icons.location_on,
-                text: "1.7km",
+                text: location!,
                 iconColor: AppColors.mainColor),
             IconAndTextWidget(
                 icon: Icons.access_time_rounded,
-                text: "32min",
+                text: time!,
                 iconColor: AppColors.iconColor2),
           ],
         )
