@@ -1,57 +1,57 @@
 void main() {
-  var myMap = {
-    'name': 'Nurbolot',
+  Map<String, dynamic> myMap = {
+    'name': 'Nurba',
     'age': 25,
-    'city': 'Bishkek',
+    'hair': 'black',
     'address': [
-      {'Country': 'Kyrgyzstan', 'City': 'Bishkek'},
-      {'Country': 'Turkey', 'City': 'Denizli'}
+      {'district': 'Archa-beshik', 'street': 'Ysyk-kol', 'number': 337},
+      {'district': 'Alamedin', 'street': 'Auezova', 'number': 4}
     ]
   };
+
   var obj = Person.fromJson(myMap);
-  print(obj.age);
   print(obj.name);
-  var myAddress = obj.address;
-  myAddress?.map((e) => print(e.city)).toList();
 }
 
 class Person {
   String? name;
   int? age;
-  String? city;
+  String? hair;
   List<Address>? address;
+
   Person({
     this.name,
     this.age,
-    this.city,
+    this.hair,
     this.address,
   });
+
   Person.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     age = json['age'];
-    city = json['city'];
+    hair = json['hair'];
     if (json['address'] != null) {
-      address = [];
+      address = <Address>[];
       (json['address'] as List).forEach((element) {
-        address!.add(Address.fromJson(element));
+        address?.add(Address.fromJson(element));
       });
     }
   }
 }
 
 class Address {
-  String? city;
-  String? country;
-  Address({
-    this.city,
-    this.country,
-  });
+  String? district;
+  String? street;
+  int? number;
+
+  Address({this.district, this.street, this.number});
+
   Address.fromJson(Map<String, dynamic> json) {
-    city = json['City'];
-    country = json['Country'];
+    district = json['district'];
+    street = json['street'];
+    number = json['number'];
   }
 }
-
 
 
 
